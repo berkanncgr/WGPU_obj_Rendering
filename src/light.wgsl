@@ -1,7 +1,8 @@
-// Vertex shader
+// Vertex shader \\
 
 [[block]]
-struct Camera {
+struct Camera
+{
     view_pos: vec4<f32>;
     view_proj: mat4x4<f32>;
 };
@@ -9,36 +10,39 @@ struct Camera {
 var<uniform> camera: Camera;
 
 [[block]]
-struct Light {
+struct Light
+{
     position: vec3<f32>;
     color: vec3<f32>;
 };
 [[group(1), binding(0)]]
 var<uniform> light: Light;
 
-struct VertexInput {
+struct VertexInput
+{
     [[location(0)]] position: vec3<f32>;
 };
 
-struct VertexOutput {
+struct VertexOutput
+{
     [[builtin(position)]] clip_position: vec4<f32>;
     [[location(0)]] color: vec3<f32>;
 };
 
 [[stage(vertex)]]
-fn main(
-    model: VertexInput,
-) -> VertexOutput {
-    let scale = 0.25;
+fn main(model: VertexInput,) -> VertexOutput
+{
+    let scale = 0.2; // Scale of light.
     var out: VertexOutput;
     out.clip_position = camera.view_proj * vec4<f32>(model.position * scale + light.position, 1.0);
     out.color = light.color;
     return out;
 }
 
-// Fragment shader
+// Fragment shader \\
 
 [[stage(fragment)]]
-fn main(in: VertexOutput) -> [[location(0)]] vec4<f32> {
+fn main(in: VertexOutput) -> [[location(0)]] vec4<f32>
+{
     return vec4<f32>(in.color, 1.0);
 }

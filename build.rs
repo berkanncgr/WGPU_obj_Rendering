@@ -3,10 +3,12 @@ use fs_extra::copy_items;
 use fs_extra::dir::CopyOptions;
 use std::env;
 
-fn main() -> Result<()> {
+fn main() -> Result<()>
+{
     // This tells cargo to rerun this script if something in /res/ changes.
     println!("cargo:rerun-if-changed=res/*");
 
+    // The OUT_DIR is an environment variable that cargo uses to specify where our application will be built.
     let out_dir = env::var("OUT_DIR")?;
     let mut copy_options = CopyOptions::new();
     copy_options.overwrite = true;
